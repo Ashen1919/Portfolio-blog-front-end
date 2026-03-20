@@ -154,15 +154,15 @@ const CreateEditPost = ({ mode = 'create' }) => {
       try {
         // Always fetch categories and tags
         const [catRes, tagRes] = await Promise.all([
-          axiosInstance.get('/categories'),
-          axiosInstance.get('/tags'),
+          axiosInstance.get('/api/categories'),
+          axiosInstance.get('/api/tags'),
         ]);
         setCategories(catRes.data);
         setAllTags(tagRes.data);
 
         // If editing, also fetch the post
         if (mode === 'edit' && id) {
-          const { data } = await axiosInstance.get(`/posts/${id}`);
+          const { data } = await axiosInstance.get(`/api/posts/${id}`);
           setForm({
             title:      data.title           || '',
             categoryId: data.category?.id    || '',
@@ -194,18 +194,18 @@ const CreateEditPost = ({ mode = 'create' }) => {
       title:      form.title,
       content:    editor.getHTML(),
       categoryId: Number(form.categoryId),
-      tagIds:     form.tagIds,              // already List<Long>
+      tagIds:     form.tagIds,              
     };
 
     setSaving(true);
     const toastId = toast.loading(mode === 'edit' ? 'Updating post…' : 'Publishing post…');
     try {
       if (mode === 'edit') {
-        await axiosInstance.put(`/posts/${id}`, payload);
+        await axiosInstance.put(`/api/posts/${id}`, payload);
         toast.success('Post updated! ✏️', { id: toastId });
         navigate(`/blog/${id}`);
       } else {
-        const { data } = await axiosInstance.post('/posts', payload);
+        const { data } = await axiosInstance.post('/api/posts', payload);
         toast.success('Post published! 🚀', { id: toastId });
         navigate(`/blog/${data.id}`);
       }
