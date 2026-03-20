@@ -28,7 +28,7 @@ const Register = () => {
     if (form.username.length < 3)           { toast.error('Username must be ≥ 3 characters'); return false; }
     if (!form.email.trim())                 { toast.error('Email is required');               return false; }
     if (!/\S+@\S+\.\S+/.test(form.email))  { toast.error('Enter a valid email address');     return false; }
-    if (form.password.length < 6)           { toast.error('Password must be ≥ 6 characters'); return false; }
+    if (form.password.length < 8)           { toast.error('Password must be ≥ 8 characters'); return false; }
     if (form.password !== form.confirm)     { toast.error('Passwords do not match');          return false; }
     return true;
   };
@@ -39,7 +39,6 @@ const Register = () => {
     setLoading(true);
     const toastId = toast.loading('Creating your account…');
     try {
-      // Spring Boot endpoint: POST /api/auth/register
       await register({ username: form.username, email: form.email, password: form.password });
       toast.success('Account created! Please log in. 🎉', { id: toastId, duration: 4000 });
       navigate('/login');
@@ -59,7 +58,7 @@ const Register = () => {
     const pw = form.password;
     if (!pw) return 0;
     let s = 0;
-    if (pw.length >= 6)                   s++;
+    if (pw.length >= 8)                   s++;
     if (/[A-Z]/.test(pw))                 s++;
     if (/[0-9]/.test(pw))                 s++;
     if (/[^A-Za-z0-9]/.test(pw))          s++;
