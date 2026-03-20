@@ -57,7 +57,7 @@ const Blog = () => {
 
   // Spring Boot endpoint: GET /api/posts?page=0&size=9
   // Adjust 'size' / field names to match your Page<PostDTO> response
-  const { data, loading, error, refetch } = useFetch('/posts/allPosts', { page, size: PAGE_SIZE });
+  const { data, loading, error, refetch } = useFetch('/api/posts/allPosts', { page, size: PAGE_SIZE });
 
   // Normalise response — Spring Boot Page object or plain array
   const posts      = Array.isArray(data) ? data : data?.content      ?? [];

@@ -4,10 +4,9 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
   timeout: 10000,
+  withCredentials: true, // ← Needed for refreshToken cookie
 });
 
 // Attach JWT from localStorage
@@ -22,28 +21,9 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Handle 401 responses
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      const isAuthRequest = error.config?.url?.includes('/auth/');
-      const hadToken = !!localStorage.getItem('token');
-
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-
-      if (hadToken && !isAuthRequest) {
-        window.location.href = '/login';
-      }
-    }
-    return Promise.reject(error);
-  }
-);
-
-// In axiosInstance.js — handle token refresh before giving up
+// Single unified response interceptor
 let isRefreshing = false;
-let failedQueue = [];
+let failedQueue  = [];
 
 const processQueue = (error, token = null) => {
   failedQueue.forEach(prom => error ? prom.reject(error) : prom.resolve(token));
@@ -54,14 +34,12 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const isAuthEndpoint  = originalRequest?.url?.includes('/auth/');
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url.includes('/auth/')  // don't retry auth endpoints
-    ) {
+    // If 401 and not an auth endpoint — try to refresh first
+    if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
+
       if (isRefreshing) {
-        // Queue requests while refresh is in progress
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then(token => {
@@ -74,8 +52,9 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
+        // refreshToken cookie is sent automatically via withCredentials
         const { data } = await axiosInstance.post('/auth/refresh');
-        const newToken = data.token;
+        const newToken  = data.token;
 
         localStorage.setItem('token', newToken);
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
@@ -93,6 +72,7 @@ axiosInstance.interceptors.response.use(
       }
     }
 
+    // Auth endpoint 401 (bad credentials, expired refresh) — just reject
     return Promise.reject(error);
   }
 );
