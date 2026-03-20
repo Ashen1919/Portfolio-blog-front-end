@@ -10,7 +10,7 @@ const Login = () => {
   const location   = useLocation();
   const from       = location.state?.from?.pathname || '/blog';
 
-  const [form, setForm]     = useState({ username: '', password: '' });
+  const [form, setForm]     = useState({ email: '', password: '' });
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.username.trim() || !form.password) {
+    if (!form.email.trim() || !form.password) {
       toast.error('Please fill in all fields');
       return;
     }
@@ -59,21 +59,21 @@ const Login = () => {
           </div>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-5" id="login-form">
-            {/* Username */}
+            {/* Email */}
             <div>
-              <label htmlFor="login-username" className="block text-sm font-medium text-gray-300 mb-1.5">
-                Username
+              <label htmlFor="login-email" className="block text-sm font-medium text-gray-300 mb-1.5">
+                Email
               </label>
               <div className="relative">
                 <RiUserLine className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                 <input
-                  id="login-username"
-                  type="text"
-                  name="username"
-                  value={form.username}
+                  id="login-email"
+                  type="email"
+                  name="email"
+                  value={form.email}
                   onChange={handleChange}
                   placeholder="johndoe"
-                  autoComplete="username"
+                  autoComplete="email"
                   required
                   className="form-input pl-10"
                 />
