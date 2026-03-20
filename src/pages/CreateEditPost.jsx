@@ -5,12 +5,6 @@ import { RiSaveLine, RiArrowLeftLine } from 'react-icons/ri';
 import axiosInstance from '../api/axiosInstance';
 import Spinner from '../components/Spinner';
 
-/**
- * CreateEditPost — handles both creating and editing a blog post.
- * Used for:
- *   POST  /api/posts          (create — mode="create")
- *   PUT   /api/posts/{id}     (update — mode="edit", route expects :id param)
- */
 const CreateEditPost = ({ mode = 'create' }) => {
   const { id }   = useParams();
   const navigate = useNavigate();

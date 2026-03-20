@@ -1,29 +1,16 @@
 import { Link } from 'react-router-dom';
 import { RiCalendarLine, RiUserLine, RiArrowRightLine, RiTimeLine } from 'react-icons/ri';
 
-/**
- * BlogCard — renders a single post card
- *
- * Props:
- *  post: {
- *    id, title, content/excerpt/body, author/authorName, createdAt/publishedAt,
- *    category/tag, readTime
- *  }
- *
- * Adjust field names below to match your Spring Boot Post DTO.
- */
 const BlogCard = ({ post, featured = false }) => {
-  // ── Normalise field names from Spring Boot DTO ────────────────────────────
-  const id        = post.id;
-  const title     = post.title     || 'Untitled Post';
-  // excerpt: use dedicated field or truncate content/body
-  const excerpt   = post.excerpt   || post.summary || truncate(post.content || post.body || '', 150);
-  const author    = post.author    || post.authorName || post.username || 'Anonymous';
-  const category  = post.category  || post.tag        || 'General';
-  const readTime  = post.readTime  || estimateReadTime(post.content || post.body || '');
-  // date
-  const rawDate   = post.createdAt || post.publishedAt || post.date;
-  const date      = rawDate ? new Date(rawDate).toLocaleDateString('en-US', {
+  const id       = post.id;
+  const title    = post.title || 'Untitled Post';
+  const excerpt  = truncate(post.content || '', 150);
+  const author   = post.author?.username || 'Anonymous';
+  const category = post.category?.name || 'General';
+  const readTime = estimateReadTime(post.content || '');
+  const tags     = post.tags || [];
+  const rawDate  = post.createdAt;
+  const date     = rawDate ? new Date(rawDate).toLocaleDateString('en-US', {
     year: 'numeric', month: 'short', day: 'numeric',
   }) : null;
 
@@ -37,14 +24,13 @@ const BlogCard = ({ post, featured = false }) => {
                        ${featured ? 'md:h-auto md:w-1 md:rounded-l-2xl md:rounded-tr-none' : ''}`} />
 
       <div className="flex flex-col flex-1 p-6">
-        {/* Category tag */}
+
+        {/* Category + Read time */}
         <div className="flex items-center justify-between mb-3">
           <span className="tag">{category}</span>
-          {readTime && (
-            <span className="flex items-center gap-1 text-xs text-gray-500">
-              <RiTimeLine /> {readTime} min read
-            </span>
-          )}
+          <span className="flex items-center gap-1 text-xs text-gray-500">
+            <RiTimeLine /> {readTime} min read
+          </span>
         </div>
 
         {/* Title */}
@@ -58,9 +44,23 @@ const BlogCard = ({ post, featured = false }) => {
         </h2>
 
         {/* Excerpt */}
-        <p className="text-gray-400 text-sm leading-relaxed flex-1 mb-5">
+        <p className="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
           {excerpt}
         </p>
+
+        {/* Tags */}
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {tags.map(tag => (
+              <span
+                key={tag.id}
+                className="px-2 py-0.5 text-xs rounded-full bg-white/5 text-gray-400 border border-white/10"
+              >
+                #{tag.name}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Meta row */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
@@ -87,6 +87,7 @@ const BlogCard = ({ post, featured = false }) => {
             <RiArrowRightLine className="transition-transform duration-200 group-hover/link:translate-x-1" />
           </Link>
         </div>
+
       </div>
     </article>
   );

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { RiQuillPenLine, RiGithubLine, RiTwitterXLine, RiLinkedinLine, RiHeartFill } from 'react-icons/ri';
+import { RiQuillPenLine, RiGithubLine, RiLinkedinLine, RiHeartFill } from 'react-icons/ri';
+import { FaBriefcase } from 'react-icons/fa';
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -24,9 +25,9 @@ const Footer = () => {
             {/* Socials */}
             <div className="flex items-center gap-3">
               {[
-                { href: 'https://github.com', icon: <RiGithubLine size={18} />,    label: 'GitHub'   },
-                { href: 'https://twitter.com',icon: <RiTwitterXLine size={18} />,  label: 'Twitter'  },
-                { href: 'https://linkedin.com',icon: <RiLinkedinLine size={18} />, label: 'LinkedIn' },
+                { href: 'https://github.com/Ashen1919', icon: <RiGithubLine size={18} />,    label: 'GitHub'   },
+                { href: 'https://ashen-gimhana.vercel.app/',icon: <FaBriefcase size={18} />,  label: 'Portfolio'  },
+                { href: 'https://www.linkedin.com/in/ashen-dissanayaka-5870231b2/',icon: <RiLinkedinLine size={18} />, label: 'LinkedIn' },
               ].map(({ href, icon, label }) => (
                 <a
                   key={label}

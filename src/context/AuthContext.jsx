@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   // ── Register: POST /auth/register ─────────────────────────────────────────
   const register = useCallback(async (payload) => {
     // payload = { username, email, password }
-    const { data } = await axiosInstance.post('/auth/register', payload);
+    const { data } = await axiosInstance.post('/api/users', payload);
     return data;
   }, []);
 

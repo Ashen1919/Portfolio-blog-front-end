@@ -27,7 +27,7 @@ const StatPill = ({ icon, label, value }) => (
 const Home = () => {
   // Fetch first 3 posts for featured section
   // Spring Boot endpoint: GET /api/posts?page=0&size=3
-  const { data, loading, error } = useFetch('/posts', { page: 0, size: 3 });
+  const { data, loading, error } = useFetch('/posts/allPosts', { page: 0, size: 3 });
 
   // Spring Boot may return a Page object ({ content: [...] }) or a plain array
   const posts = Array.isArray(data) ? data : data?.content ?? [];

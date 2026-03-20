@@ -1,7 +1,4 @@
-/**
- * Spinner — accessible loading indicator
- * Props: size ('sm' | 'md' | 'lg'), fullPage (boolean)
- */
+
 const sizeMap = {
   sm: 'w-5 h-5 border-2',
   md: 'w-9 h-9 border-[3px]',
