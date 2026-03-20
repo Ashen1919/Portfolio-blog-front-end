@@ -7,10 +7,10 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10s timeout
+  timeout: 10000,
 });
 
-// attach JWT from localStorage 
+// Attach JWT from localStorage
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -22,14 +22,20 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// clear token and redirect to /login
+// Handle 401 responses
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      const isAuthRequest = error.config?.url?.includes('/auth/');
+      const hadToken = !!localStorage.getItem('token');
+
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+
+      if (hadToken && !isAuthRequest) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
