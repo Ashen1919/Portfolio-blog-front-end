@@ -80,9 +80,9 @@ const Home = () => {
 
           {/* Stats */}
           <div className="flex flex-wrap items-center justify-center gap-4 animate-fade-in animate-delay-300">
-            <StatPill icon="✍️" label="Articles published" value="500+" />
-            <StatPill icon="👥" label="Active authors"     value="120+" />
-            <StatPill icon="🌍" label="Monthly readers"    value="10K+"  />
+            <StatPill icon="✍️" label="Articles published" value="10+" />
+            <StatPill icon="👥" label="Active authors"     value="50+" />
+            <StatPill icon="🌍" label="Monthly readers"    value="2K+"  />
           </div>
         </div>
 
