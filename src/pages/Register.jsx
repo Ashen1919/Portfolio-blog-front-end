@@ -140,7 +140,7 @@ const Register = () => {
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  placeholder="Min 6 characters"
+                  placeholder="Min 8 characters"
                   autoComplete="new-password"
                   required
                   className="form-input pl-10 pr-11"
