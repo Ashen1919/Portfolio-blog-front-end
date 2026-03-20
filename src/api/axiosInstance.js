@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
   timeout: 10000,
-  withCredentials: true, // ← Needed for refreshToken cookie
+  withCredentials: true, 
 });
 
 // Attach JWT from localStorage
