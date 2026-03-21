@@ -21,7 +21,7 @@ const BlogDetail = () => {
   const [deleting, setDeleting]       = useState(false);
 
   // Spring Boot endpoint: GET /api/posts/{id}
-  const { data: post, loading, error } = useFetch(`/posts/${id}`);
+  const { data: post, loading, error } = useFetch(`/api/posts/${id}`);
 
   if (loading) return <Spinner fullPage />;
 
