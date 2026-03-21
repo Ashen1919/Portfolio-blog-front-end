@@ -5,7 +5,7 @@ import { stripHtml } from '../api/postFormData';
 const BlogCard = ({ post, featured = false }) => {
   const id       = post.id;
   const title    = post.title || 'Untitled Post';
-  const excerpt  = truncate(stripHtml(post.content || '', 150));
+  const excerpt  = truncate(stripHtml(post.content || '', 40));
   const author   = post.author?.username || 'Anonymous';
   const category = post.category?.name || 'General';
   const readTime = estimateReadTime(post.content || '');
