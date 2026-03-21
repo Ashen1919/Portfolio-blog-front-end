@@ -73,7 +73,7 @@ const Home = () => {
             <Link to="/blog" id="hero-explore-btn" className="btn-primary text-base px-8 py-4">
               Explore Posts <RiArrowRightLine className="transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link to="/register" id="hero-start-writing-btn" className="btn-secondary text-base px-8 py-4">
+            <Link to="/blog/create" id="hero-start-writing-btn" className="btn-secondary text-base px-8 py-4">
               <RiPenNibLine /> Start Writing
             </Link>
           </div>

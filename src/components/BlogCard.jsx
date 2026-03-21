@@ -6,7 +6,7 @@ const BlogCard = ({ post, featured = false }) => {
   const id       = post.id;
   const title    = post.title || 'Untitled Post';
   const plainText = stripHtml(post.content || '');
-  const excerpt   = truncate(plainText, 150);
+  const excerpt   = truncate(plainText, 270);
   const readTime  = estimateReadTime(plainText);
   const author   = post.author?.username || 'Anonymous';
   const category = post.category?.name || 'General';
