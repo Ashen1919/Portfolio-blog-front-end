@@ -251,6 +251,7 @@ const CreateEditPost = ({ mode = "create" }) => {
     extensions: [
       StarterKit.configure({
         history: false,
+        underline: false
       }),
       Underline,
       Image.configure({ inline: false, allowBase64: true }),
