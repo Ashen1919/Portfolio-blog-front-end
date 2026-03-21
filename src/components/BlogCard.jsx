@@ -5,10 +5,11 @@ import { stripHtml } from '../api/postFormData';
 const BlogCard = ({ post, featured = false }) => {
   const id       = post.id;
   const title    = post.title || 'Untitled Post';
-  const excerpt  = truncate(stripHtml(post.content || '', 40));
+  const plainText = stripHtml(post.content || '');
+  const excerpt   = truncate(plainText, 150);
+  const readTime  = estimateReadTime(plainText);
   const author   = post.author?.username || 'Anonymous';
   const category = post.category?.name || 'General';
-  const readTime = estimateReadTime(post.content || '');
   const tags     = post.tags || [];
   const rawDate  = post.createdAt;
   const date     = rawDate ? new Date(rawDate).toLocaleDateString('en-US', {
