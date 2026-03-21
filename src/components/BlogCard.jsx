@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { RiCalendarLine, RiUserLine, RiArrowRightLine, RiTimeLine } from 'react-icons/ri';
+import { stripHtml } from '../api/postFormData';
 
 const BlogCard = ({ post, featured = false }) => {
   const id       = post.id;
   const title    = post.title || 'Untitled Post';
-  const excerpt  = truncate(post.content || '', 150);
+  const excerpt  = truncate(stripHtml(post.content || '', 150));
   const author   = post.author?.username || 'Anonymous';
   const category = post.category?.name || 'General';
   const readTime = estimateReadTime(post.content || '');
