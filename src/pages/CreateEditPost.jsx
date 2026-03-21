@@ -249,11 +249,17 @@ const CreateEditPost = ({ mode = "create" }) => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        history: false,
+      }),
       Underline,
       Image.configure({ inline: false, allowBase64: true }),
       Placeholder.configure({ placeholder: "Start writing your story here…" }),
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TextAlign.configure({
+        types: ["heading", "paragraph", "listItem"],
+        alignments: ["left", "center", "right", "justify"],
+        defaultAlignment: "left",
+      }),
     ],
     editorProps: {
       attributes: {
