@@ -36,10 +36,10 @@ const BlogDetail = () => {
 
   /* ── Normalise fields from Spring Boot PostDTO ─────────────────────────── */
   const title     = post.title     || 'Untitled';
-  const content   = post.content   || post.body    || '';
-  const author    = post.author    || post.authorName || post.username || 'Anonymous';
-  const authorId  = post.authorId  || post.userId;
-  const category  = post.category  || post.tag     || 'General';
+  const content   = post.content   || '';
+  const author    = post.author?.username || 'Anonymous';
+  const authorId  = post.authorId?.id;
+  const category  = post.category?.name  || 'General';
   const rawDate   = post.createdAt || post.publishedAt || post.date;
   const date      = rawDate
     ? new Date(rawDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -47,7 +47,7 @@ const BlogDetail = () => {
   const readTime  = Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 200));
 
   /* ── Ownership check: show edit/delete only if user is the author ──────── */
-  const isOwner = isAuthenticated && (user?.username === author || user?.id === authorId || user?.sub === author);
+  const isOwner = isAuthenticated && (user?.username === author || user?.id === authorId);
 
   /* ── Delete handler ────────────────────────────────────────────────────── */
   const handleDelete = async () => {
@@ -55,7 +55,7 @@ const BlogDetail = () => {
     setDeleting(true);
     try {
       // Spring Boot endpoint: DELETE /api/posts/{id}
-      await axiosInstance.delete(`/posts/${id}`);
+      await axiosInstance.delete(`/api/posts/${id}`);
       toast.success('Post deleted successfully');
       navigate('/blog');
     } catch (err) {
