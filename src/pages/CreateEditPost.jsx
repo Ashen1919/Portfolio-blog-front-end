@@ -345,7 +345,7 @@ const CreateEditPost = ({ mode = "create" }) => {
     );
     try {
       if (mode === "edit") {
-        await axiosInstance.put(`/api/posts/${id}`, payload);
+        await axiosInstance.patch(`/api/posts/${id}`, payload);
         toast.success("Post updated! ✏️", { id: toastId });
         navigate(`/blog/${id}`);
       } else {
