@@ -12,6 +12,7 @@ import BlogDetail     from './pages/BlogDetail';
 import Login          from './pages/Login';
 import Register       from './pages/Register';
 import CreateEditPost from './pages/CreateEditPost';
+import MyPosts        from './pages/MyPosts';
 import NotFound       from './pages/NotFound';
 
 const App = () => {
@@ -55,6 +56,14 @@ const App = () => {
               <Route path="/register" element={<Register />} />
 
               {/* Protected routes (require authentication) */}
+              <Route
+                path="/my-posts"
+                element={
+                  <ProtectedRoute>
+                    <MyPosts />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/blog/create"
                 element={

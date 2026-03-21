@@ -1,43 +1,48 @@
-import { useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { RiMenuLine, RiCloseLine, RiUserLine, RiQuillPenLine } from 'react-icons/ri';
-import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import {
+  RiMenuLine,
+  RiCloseLine,
+  RiUserLine,
+  RiQuillPenLine,
+} from "react-icons/ri";
+import { useAuth } from "../context/AuthContext";
 
 const NAV_LINKS = [
-  { to: '/',      label: 'Home'  },
-  { to: '/blog',  label: 'Blog'  },
+  { to: "/", label: "Home" },
+  { to: "/blog", label: "Blog" },
 ];
 
 const Navbar = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
-  const [menuOpen,    setMenuOpen]    = useState(false);
-  const [scrolled,    setScrolled]    = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   /* Shrink navbar on scroll */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const handleLogout = () => {
     logout();
     setMenuOpen(false);
-    navigate('/');
+    navigate("/");
   };
 
   const linkClass = ({ isActive }) =>
     `text-sm font-medium transition-colors duration-200 ${
-      isActive ? 'text-primary-400' : 'text-gray-300 hover:text-white'
+      isActive ? "text-primary-400" : "text-gray-300 hover:text-white"
     }`;
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-dark-900/90 backdrop-blur-lg shadow-lg border-b border-white/5'
-          : 'bg-transparent'
+          ? "bg-dark-900/90 backdrop-blur-lg shadow-lg border-b border-white/5"
+          : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,15 +62,21 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Primary navigation">
+          <nav
+            className="hidden md:flex items-center gap-8"
+            aria-label="Primary navigation"
+          >
             {NAV_LINKS.map(({ to, label }) => (
-              <NavLink key={to} to={to} className={linkClass} end={to === '/'}>
+              <NavLink key={to} to={to} className={linkClass} end={to === "/"}>
                 {label}
               </NavLink>
             ))}
 
             {isAuthenticated ? (
               <>
+                <NavLink to="/my-posts" className={linkClass}>
+                  My Posts
+                </NavLink>
                 <Link
                   to="/blog/create"
                   className="btn-primary py-2 text-sm"
@@ -76,7 +87,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                   <span className="flex items-center gap-1.5 text-gray-300 text-sm">
                     <RiUserLine className="text-primary-400" />
-                    {user?.username || 'Author'}
+                    {user?.username || "Author"}
                   </span>
                   <button
                     onClick={handleLogout}
@@ -89,8 +100,20 @@ const Navbar = () => {
               </>
             ) : (
               <div className="flex items-center gap-3">
-                <Link to="/login"    className="btn-secondary py-2 text-sm" id="navbar-login-btn">Login</Link>
-                <Link to="/register" className="btn-primary  py-2 text-sm" id="navbar-register-btn">Get Started</Link>
+                <Link
+                  to="/login"
+                  className="btn-secondary py-2 text-sm"
+                  id="navbar-login-btn"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="btn-primary  py-2 text-sm"
+                  id="navbar-register-btn"
+                >
+                  Get Started
+                </Link>
               </div>
             )}
           </nav>
@@ -99,7 +122,7 @@ const Navbar = () => {
           <button
             className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
             onClick={() => setMenuOpen((o) => !o)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
             id="navbar-mobile-menu-btn"
           >
             {menuOpen ? <RiCloseLine size={24} /> : <RiMenuLine size={24} />}
@@ -114,10 +137,12 @@ const Navbar = () => {
             <NavLink
               key={to}
               to={to}
-              end={to === '/'}
+              end={to === "/"}
               className={({ isActive }) =>
                 `block py-2 text-base font-medium transition-colors ${
-                  isActive ? 'text-primary-400' : 'text-gray-300 hover:text-white'
+                  isActive
+                    ? "text-primary-400"
+                    : "text-gray-300 hover:text-white"
                 }`
               }
               onClick={() => setMenuOpen(false)}
@@ -129,6 +154,19 @@ const Navbar = () => {
           <div className="pt-4 border-t border-white/10 space-y-3">
             {isAuthenticated ? (
               <>
+                <NavLink
+                  to="/my-posts"
+                  className={({ isActive }) =>
+                    `block py-2 text-base font-medium transition-colors ${
+                      isActive
+                        ? "text-primary-400"
+                        : "text-gray-300 hover:text-white"
+                    }`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  My Posts
+                </NavLink>
                 <Link
                   to="/blog/create"
                   className="btn-primary w-full justify-center text-sm"
@@ -145,8 +183,20 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to="/login"    onClick={() => setMenuOpen(false)} className="btn-secondary w-full justify-center text-sm">Login</Link>
-                <Link to="/register" onClick={() => setMenuOpen(false)} className="btn-primary  w-full justify-center text-sm">Register</Link>
+                <Link
+                  to="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="btn-secondary w-full justify-center text-sm"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMenuOpen(false)}
+                  className="btn-primary  w-full justify-center text-sm"
+                >
+                  Register
+                </Link>
               </>
             )}
           </div>
