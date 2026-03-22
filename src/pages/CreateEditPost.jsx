@@ -75,7 +75,7 @@ const EditorToolbar = ({ editor }) => {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        editor.chain().focus().setImage({ src: data.url }).run(); 
+        editor.chain().focus().setImage({ src: data.url }).run();
         toast.success("Image uploaded!", { id: toastId });
       } catch (err) {
         toast.error("Image upload failed", { id: toastId });
@@ -365,6 +365,9 @@ const CreateEditPost = ({ mode = "create" }) => {
         navigate(`/blog/${data.id}`);
       }
     } catch (err) {
+      console.log("Full error:", err);
+      console.log("Response data:", err.response?.data);
+      console.log("Status:", err.response?.status);
       toast.error(err.response?.data?.message || "Something went wrong", {
         id: toastId,
       });
