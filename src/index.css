@@ -108,7 +108,7 @@
   .animate-delay-400 { animation-delay: 400ms; }
 }
 
-/* In your global CSS */
+/* ── TipTap Editor styles (writing side) ──────────────────── */
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
@@ -135,3 +135,55 @@
   color: #9ca3af;
   font-style: italic;
 }
+
+/* ── Blog post display styles (reading side) ──────────────── */
+.blog-content h1 { font-size: 2em; font-weight: bold; margin: 0.67em 0; color: white; }
+.blog-content h2 { font-size: 1.5em; font-weight: bold; margin: 0.75em 0; color: white; }
+.blog-content h3 { font-size: 1.17em; font-weight: bold; margin: 0.83em 0; color: white; }
+.blog-content p  { margin-bottom: 1em; line-height: 1.75; color: #d1d5db; }
+
+.blog-content ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; color: #d1d5db; }
+.blog-content ol { list-style-type: decimal; padding-left: 1.5em; margin-bottom: 1em; color: #d1d5db; }
+.blog-content li { margin: 0.25em 0; }
+
+.blog-content blockquote {
+  border-left: 3px solid #6b7280;
+  padding-left: 1em;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 1.5em 0;
+}
+
+.blog-content code {
+  background: #1f2937;
+  color: #a78bfa;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.blog-content pre {
+  background: #1f2937;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.blog-content pre code {
+  background: transparent;
+  padding: 0;
+  color: #d1d5db;
+}
+
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.blog-content strong { color: white; font-weight: 600; }
+.blog-content a { color: #818cf8; text-decoration: none; }
+.blog-content a:hover { text-decoration: underline; }
+.blog-content hr { border-color: rgba(255,255,255,0.1); margin: 2em 0; }
