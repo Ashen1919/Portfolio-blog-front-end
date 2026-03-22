@@ -58,17 +58,28 @@ const ToolbarBtn = ({ onClick, active, disabled, title, children }) => (
 const EditorToolbar = ({ editor }) => {
   if (!editor) return null;
 
-  const insertImage = () => {
+  const insertImage = async () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
-    input.onchange = (e) => {
+    input.onchange = async (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) =>
-        editor.chain().focus().setImage({ src: ev.target.result }).run();
-      reader.readAsDataURL(file);
+
+      const toastId = toast.loading("Uploading image...");
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const { data } = await axiosInstance.post("/api/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        editor.chain().focus().setImage({ src: data.url }).run(); 
+        toast.success("Image uploaded!", { id: toastId });
+      } catch (err) {
+        toast.error("Image upload failed", { id: toastId });
+      }
     };
     input.click();
   };
@@ -251,7 +262,7 @@ const CreateEditPost = ({ mode = "create" }) => {
     extensions: [
       StarterKit.configure({
         history: false,
-        underline: false
+        underline: false,
       }),
       Underline,
       Image.configure({ inline: false, allowBase64: true }),
