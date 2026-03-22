@@ -73,6 +73,7 @@ const EditorToolbar = ({ editor }) => {
 
         const { data } = await axiosInstance.post("/api/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
+          timeout: 30000
         });
 
         editor.chain().focus().setImage({ src: data.url }).run();
