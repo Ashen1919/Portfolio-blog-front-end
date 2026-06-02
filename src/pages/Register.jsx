@@ -43,6 +43,7 @@ const Register = () => {
       toast.success('Account created! Please log in. 🎉', { id: toastId, duration: 4000 });
       navigate('/login');
     } catch (err) {
+      console.error('Registration error:', err);
       const msg =
         err.response?.data?.message ||
         err.response?.data?.error   ||
