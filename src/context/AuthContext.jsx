@@ -21,17 +21,22 @@ export const AuthProvider = ({ children }) => {
     const { data } = await axiosInstance.post('/auth/login', credentials);
     const jwt = data.token;
 
+    localStorage.setItem('token', jwt);
+    setToken(jwt);
+
     // Fetch full user details from /auth/currentUser
     const { data: userData } = await axiosInstance.get('/auth/currentUser', {
       headers: { Authorization: `Bearer ${jwt}` },
     });
+
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
     return userData;
   }, []);
 
   // ── Register: POST /api/users ────────────────────────────────────────────
   const register = useCallback(async (payload) => {
     // payload = { username, email, password }
-    console.log('Registering user with payload:', payload);
     const { data } = await axiosInstance.post('/api/users', payload);
     return data;
   }, []);
